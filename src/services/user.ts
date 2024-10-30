@@ -26,7 +26,6 @@ export const getUserByUsername = (db: IDatabase<object>, username: string) => {
     SELECT *
     FROM users
     WHERE username = $1
-    AND password = $2
   `;
 
   return db.oneOrNone<User>(query, [username]);

@@ -1,4 +1,4 @@
-service: aws-node-express-api
+service: scourge-api
 
 plugins:
   - serverless-esbuild

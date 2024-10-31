@@ -15,7 +15,10 @@ import {
   getActivityById,
   updateActivity,
 } from "../services/activity";
-import { getMembersByActivityId } from "../services/member_activity";
+import {
+  createMemberByActivityId,
+  getMembersByActivityId,
+} from "../services/member_activity";
 
 export const activityController = Router();
 
@@ -39,6 +42,29 @@ activityController.get("/", authUser(), (req, res) => {
 activityController.get("/:id/member", authUser(), (req, res) => {
   (async () => {
     const result = await getMembersByActivityId(db, req.params.id);
+
+    res.send(result);
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+activityController.post("/:id/member", authUser(), (req, res) => {
+  (async () => {
+    const body = req.body as string[];
+
+    const result = await Promise.all(
+      body.map((x) => {
+        const data = {
+          activity_id: req.params.id,
+          id: v4(),
+          member_id: x,
+        };
+
+        return createMemberByActivityId(db, data);
+      })
+    );
 
     res.send(result);
   })().catch((err) => {

@@ -65,6 +65,7 @@ activityController.post("/:id/member", authUser(), (req, res) => {
             ingame_name: x,
           };
 
+          members.push(data);
           return createMember(db, data);
         }
 
@@ -77,7 +78,7 @@ activityController.post("/:id/member", authUser(), (req, res) => {
         const data = {
           activity_id: req.params.id,
           id: v4(),
-          member_id: x,
+          member_id: members.find((y) => y.discord_name === x)?.id || "",
         };
 
         return createMemberByActivityId(db, data);

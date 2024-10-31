@@ -22,6 +22,7 @@ export default tseslint.config(eslint.configs.all, ...tseslint.configs.strict, {
     "max-statements": ["error", { max: 40 }],
     "new-cap": 0,
     "no-console": 0,
+    "no-template-curly-in-string": 0,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "one-var": 0,

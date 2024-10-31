@@ -6,6 +6,8 @@ import serverless from "serverless-http";
 import { testController } from "./controllers/test";
 import { userController } from "./controllers/user";
 
+import { activityController } from "./controllers/activity";
+
 export const app = express();
 
 app.use(cors());
@@ -14,6 +16,8 @@ app.use(json({ limit: "50mb" }));
 
 app.use("/test", testController);
 app.use("/user", userController);
+
+app.use("/activity", activityController);
 
 app.use((req, res) =>
   res.status(StatusCodes.NOT_FOUND).json({

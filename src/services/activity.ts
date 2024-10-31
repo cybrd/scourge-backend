@@ -40,8 +40,19 @@ export const getActivitiesCount = (db: IDatabase<object>) => {
 export const createActivity = (db: IDatabase<object>, data: Activity) => {
   console.log("createActivity");
 
+  const fields = Object.keys(data).map((x) => {
+    switch (x) {
+      case "activity_timestamp":
+      case "created_timestamp":
+      case "updated_timestamp":
+        return { init: () => "NOW()", mod: ":raw", name: x };
+      default:
+        return x;
+    }
+  });
+
   const pgp = pgpClass({});
-  const insertFields = new pgp.helpers.ColumnSet(data);
+  const insertFields = new pgp.helpers.ColumnSet(fields);
 
   let query = pgp.helpers.insert(data, insertFields, "activity");
   query += ' ON CONFLICT("id") DO UPDATE SET ';

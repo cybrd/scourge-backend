@@ -14,6 +14,7 @@ export default tseslint.config(eslint.configs.all, ...tseslint.configs.strict, {
       "error",
       { destructuredArrayIgnorePattern: "^_", ignoreRestSiblings: true },
     ],
+    camelcase: 0,
     complexity: ["error", { max: 30 }],
     "id-length": 0,
     "max-lines": ["error", { max: 500 }],

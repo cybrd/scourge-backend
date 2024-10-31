@@ -62,8 +62,17 @@ activityController.post("/", authUser(), (req, res) => {
   (async () => {
     const body = req.body as Activity;
     const id = v4();
+    const activity_timestamp = "";
+    const created_timestamp = "";
+    const updated_timestamp = "";
 
-    const result = await createActivity(db, { ...body, id });
+    const result = await createActivity(db, {
+      ...body,
+      activity_timestamp,
+      created_timestamp,
+      id,
+      updated_timestamp,
+    });
 
     res.json(result);
   })().catch((err) => {

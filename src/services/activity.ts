@@ -23,7 +23,7 @@ export const getActivityById = (db: IDatabase<object>, id: string) => {
     WHERE id = $1
   `;
 
-  return db.manyOrNone<Activity>(query, [id]);
+  return db.oneOrNone<Activity>(query, [id]);
 };
 
 export const getActivitiesCount = (db: IDatabase<object>) => {

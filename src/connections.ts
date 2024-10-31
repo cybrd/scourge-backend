@@ -1,5 +1,6 @@
-import { config } from "dotenv";
 import pgpClass from "pg-promise";
+
+import { config } from "dotenv";
 config();
 
 export const db = pgpClass()({

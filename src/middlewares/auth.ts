@@ -13,39 +13,33 @@ declare module "express-serve-static-core" {
   }
 }
 
-export const authUser =
-  (role: User["role"]): RequestHandler =>
-  (req, res, next) => {
-    console.log("authUser", role);
+export const authUser = (): RequestHandler => (req, res, next) => {
+  console.log("authUser");
 
-    if (!req.headers.authorization) {
-      res.sendStatus(StatusCodes.UNAUTHORIZED);
-      return;
-    }
+  if (!req.headers.authorization) {
+    res.sendStatus(StatusCodes.UNAUTHORIZED);
+    return;
+  }
 
-    const [_, token] = req.headers.authorization.split(" ");
+  const [_, token] = req.headers.authorization.split(" ");
 
-    try {
-      const userToken = verify(token, "secret") as User;
+  try {
+    const userToken = verify(token, "secret") as User;
 
-      if (userToken.role === "admin" || role === userToken.role) {
-        getUserByUsername(db, userToken.username)
-          .then((user) => {
-            if (user) {
-              req.user = user;
-              next();
-            } else {
-              res.sendStatus(StatusCodes.UNAUTHORIZED);
-            }
-          })
-          .catch((e) => {
-            console.error(e);
-            res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-          });
-      } else {
-        res.sendStatus(StatusCodes.UNAUTHORIZED);
-      }
-    } catch {
-      res.sendStatus(StatusCodes.UNAUTHORIZED);
-    }
-  };
+    getUserByUsername(db, userToken.username)
+      .then((user) => {
+        if (user) {
+          req.user = user;
+          next();
+        } else {
+          res.sendStatus(StatusCodes.UNAUTHORIZED);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+        res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+      });
+  } catch {
+    res.sendStatus(StatusCodes.UNAUTHORIZED);
+  }
+};

@@ -2,6 +2,9 @@ import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { sign } from "jsonwebtoken";
 
+import { config } from "dotenv";
+config();
+
 import { db } from "../connections";
 import { getUserByUsernameAndPassword } from "../services/user";
 
@@ -24,13 +27,9 @@ userController.post("/login", (req, res) => {
 
     if (user) {
       res.json({
-        role: user.role,
         token: sign(
-          {
-            role: user.role,
-            username: body.username,
-          },
-          "secret"
+          { username: body.username },
+          process.env.JWT_SIGN_KEY || "xzz"
         ),
         username: user.username,
       });

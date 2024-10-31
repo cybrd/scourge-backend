@@ -10,6 +10,7 @@ import { authUser } from "../middlewares/auth";
 import {
   createMember,
   deleteMember,
+  deleteMemberActivityByMemberId,
   getMemberById,
   getMembers,
   updateMember,
@@ -71,6 +72,7 @@ memberController.post("/", authUser(), (req, res) => {
 
 memberController.delete("/:id", authUser(), (req, res) => {
   (async () => {
+    await deleteMemberActivityByMemberId(db, req.params.id);
     const result = await deleteMember(db, req.params.id);
 
     res.send(result);

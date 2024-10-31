@@ -40,9 +40,12 @@ export const getActivitiesCount = (db: IDatabase<object>) => {
 export const createActivity = (db: IDatabase<object>, data: Activity) => {
   console.log("createActivity");
 
-  const fields = Object.keys(data).map((x) => {
+  const fields = Object.keys({
+    ...data,
+    created_timestamp: "",
+    updated_timestamp: "",
+  }).map((x) => {
     switch (x) {
-      case "activity_timestamp":
       case "created_timestamp":
       case "updated_timestamp":
         return { init: () => "NOW()", mod: ":raw", name: x };
@@ -72,8 +75,20 @@ export const updateActivity = (
 ) => {
   console.log("updateActivity", id);
 
+  const fields = Object.keys({
+    ...data,
+    updated_timestamp: "",
+  }).map((x) => {
+    switch (x) {
+      case "updated_timestamp":
+        return { init: () => "NOW()", mod: ":raw", name: x };
+      default:
+        return x;
+    }
+  });
+
   const pgp = pgpClass({});
-  const updateFields = new pgp.helpers.ColumnSet(data);
+  const updateFields = new pgp.helpers.ColumnSet(fields);
   const condition = pgp.as.format(" WHERE id = ${id}", { id });
 
   let query = String(pgp.helpers.update(data, updateFields, "activity"));

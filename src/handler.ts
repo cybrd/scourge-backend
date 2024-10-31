@@ -7,6 +7,7 @@ import { testController } from "./controllers/test";
 import { userController } from "./controllers/user";
 
 import { activityController } from "./controllers/activity";
+import { memberActivityController } from "./controllers/member-activity";
 import { memberController } from "./controllers/member";
 
 export const app = express();
@@ -19,6 +20,7 @@ app.use("/test", testController);
 app.use("/user", userController);
 
 app.use("/activity", activityController);
+app.use("/member-activity", memberActivityController);
 app.use("/member", memberController);
 
 app.use((req, res) =>

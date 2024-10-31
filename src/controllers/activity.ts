@@ -15,13 +15,7 @@ import {
   getActivityById,
   updateActivity,
 } from "../services/activity";
-import { createMember, getMembers } from "../services/member";
-import {
-  createMemberByActivityId,
-  deleteMemberActivity,
-  deleteMemberActivityByActivityId,
-  getMembersByActivityId,
-} from "../services/member_activity";
+import { deleteMemberActivityByActivityId } from "../services/member_activity";
 
 export const activityController = Router();
 
@@ -36,59 +30,6 @@ activityController.get("/", authUser(), (req, res) => {
       counts: counts.count,
       data,
     });
-  })().catch((err) => {
-    console.trace(err);
-    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-  });
-});
-
-activityController.get("/:id/member", authUser(), (req, res) => {
-  (async () => {
-    const result = await getMembersByActivityId(db, req.params.id);
-
-    res.send(result);
-  })().catch((err) => {
-    console.trace(err);
-    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-  });
-});
-
-activityController.post("/:id/member", authUser(), (req, res) => {
-  (async () => {
-    const rawBody = req.body as string[];
-    const body = rawBody.filter((x) => x.trim().length);
-
-    const members = await getMembers(db);
-    await Promise.all(
-      body.map((x) => {
-        if (!members.find((y) => y.discord_name === x)) {
-          const data = {
-            discord_name: x,
-            id: v4(),
-            ingame_name: x,
-          };
-
-          members.push(data);
-          return createMember(db, data);
-        }
-
-        return null;
-      })
-    );
-
-    const result = await Promise.all(
-      body.map((x) => {
-        const data = {
-          activity_id: req.params.id,
-          id: v4(),
-          member_id: members.find((y) => y.discord_name === x)?.id || "",
-        };
-
-        return createMemberByActivityId(db, data);
-      })
-    );
-
-    res.send(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -130,21 +71,6 @@ activityController.post("/", authUser(), (req, res) => {
     });
 
     res.json(result);
-  })().catch((err) => {
-    console.trace(err);
-    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-  });
-});
-
-activityController.delete("/:id/member/:memberId", authUser(), (req, res) => {
-  (async () => {
-    const result = await deleteMemberActivity(
-      db,
-      req.params.id,
-      req.params.memberId
-    );
-
-    res.send(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

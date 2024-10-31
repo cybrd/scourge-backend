@@ -49,3 +49,20 @@ export const createMemberByActivityId = (
 
   return db.oneOrNone<MemberActivity>(query);
 };
+
+export const deleteMemberActivity = (
+  db: IDatabase<object>,
+  activityId: string,
+  memberId: string
+) => {
+  console.log("deleteMemberActivity", activityId, memberId);
+
+  const query = `
+    DELETE FROM member_activity
+    WHERE activity_id = $1
+    AND member_id = $2
+    RETURNING *
+  `;
+
+  return db.oneOrNone<MemberActivity>(query, [activityId, memberId]);
+};

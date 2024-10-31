@@ -18,6 +18,7 @@ import {
 import { createMember, getMembers } from "../services/member";
 import {
   createMemberByActivityId,
+  deleteMemberActivity,
   getMembersByActivityId,
 } from "../services/member_activity";
 
@@ -127,6 +128,21 @@ activityController.post("/", authUser(), (req, res) => {
     });
 
     res.json(result);
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+activityController.delete("/:id/member/:memberId", authUser(), (req, res) => {
+  (async () => {
+    const result = await deleteMemberActivity(
+      db,
+      req.params.id,
+      req.params.memberId
+    );
+
+    res.send(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

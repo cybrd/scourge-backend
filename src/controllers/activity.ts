@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
+import { v4 } from "uuid";
 
 import { db } from "../connections";
+
+import { Activity } from "../models/activity";
+import { authUser } from "../middlewares/auth";
 
 import {
   createActivity,
@@ -11,9 +15,7 @@ import {
   getActivityById,
   updateActivity,
 } from "../services/activity";
-import { Activity } from "../models/activity";
-import { authUser } from "../middlewares/auth";
-import { v4 } from "uuid";
+import { getMembersByActivityId } from "../services/member_activity";
 
 export const activityController = Router();
 
@@ -28,6 +30,17 @@ activityController.get("/", authUser(), (req, res) => {
       counts: counts.count,
       data,
     });
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+activityController.get("/:id/member", authUser(), (req, res) => {
+  (async () => {
+    const result = await getMembersByActivityId(db, req.params.id);
+
+    res.send(result);
   })().catch((err) => {
     console.trace(err);
     res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);

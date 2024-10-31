@@ -1,4 +1,4 @@
-import { IDatabase } from "pg-promise";
+import { type IDatabase } from "pg-promise";
 
 import { User } from "../models/user";
 

@@ -54,7 +54,8 @@ activityController.get("/:id/member", authUser(), (req, res) => {
 
 activityController.post("/:id/member", authUser(), (req, res) => {
   (async () => {
-    const body = req.body as string[];
+    const rawBody = req.body as string[];
+    const body = rawBody.filter((x) => x.trim().length);
 
     const members = await getMembers(db);
     await Promise.all(

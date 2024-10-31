@@ -102,7 +102,7 @@ export const deleteMember = (db: IDatabase<object>, id: string) => {
   console.log("deleteMember", id);
 
   const query = `
-    DELETE FROM member
+    DELETE FROM members
     WHERE id = $1
     RETURNING *
   `;

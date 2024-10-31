@@ -15,6 +15,7 @@ import {
   getActivityById,
   updateActivity,
 } from "../services/activity";
+import { createMember, getMembers } from "../services/member";
 import {
   createMemberByActivityId,
   getMembersByActivityId,
@@ -53,6 +54,23 @@ activityController.get("/:id/member", authUser(), (req, res) => {
 activityController.post("/:id/member", authUser(), (req, res) => {
   (async () => {
     const body = req.body as string[];
+
+    const members = await getMembers(db);
+    await Promise.all(
+      body.map((x) => {
+        if (!members.find((y) => y.discord_name === x)) {
+          const data = {
+            discord_name: x,
+            id: v4(),
+            ingame_name: x,
+          };
+
+          return createMember(db, data);
+        }
+
+        return null;
+      })
+    );
 
     const result = await Promise.all(
       body.map((x) => {

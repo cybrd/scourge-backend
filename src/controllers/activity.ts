@@ -19,6 +19,7 @@ import { createMember, getMembers } from "../services/member";
 import {
   createMemberByActivityId,
   deleteMemberActivity,
+  deleteMemberActivityByActivityId,
   getMembersByActivityId,
 } from "../services/member_activity";
 
@@ -152,6 +153,7 @@ activityController.delete("/:id/member/:memberId", authUser(), (req, res) => {
 
 activityController.delete("/:id", authUser(), (req, res) => {
   (async () => {
+    await deleteMemberActivityByActivityId(db, req.params.id);
     const result = await deleteActivity(db, req.params.id);
 
     res.send(result);

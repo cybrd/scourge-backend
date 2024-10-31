@@ -66,3 +66,33 @@ export const deleteMemberActivity = (
 
   return db.oneOrNone<MemberActivity>(query, [activityId, memberId]);
 };
+
+export const deleteMemberActivityByMemberId = (
+  db: IDatabase<object>,
+  id: string
+) => {
+  console.log("deleteMemberActivityByMemberId", id);
+
+  const query = `
+    DELETE FROM member_activity
+    WHERE member_id = $1
+    RETURNING *
+  `;
+
+  return db.oneOrNone<MemberActivity>(query, [id]);
+};
+
+export const deleteMemberActivityByActivityId = (
+  db: IDatabase<object>,
+  id: string
+) => {
+  console.log("deleteMemberActivityByActivityId", id);
+
+  const query = `
+    DELETE FROM member_activity
+    WHERE activity_id = $1
+    RETURNING *
+  `;
+
+  return db.oneOrNone<MemberActivity>(query, [id]);
+};

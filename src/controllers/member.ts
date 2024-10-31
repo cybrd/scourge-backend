@@ -10,11 +10,11 @@ import { authUser } from "../middlewares/auth";
 import {
   createMember,
   deleteMember,
-  deleteMemberActivityByMemberId,
   getMemberById,
   getMembers,
   updateMember,
 } from "../services/member";
+import { deleteMemberActivityByMemberId } from "../services/member_activity";
 
 export const memberController = Router();
 

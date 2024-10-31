@@ -7,8 +7,8 @@ export const getActivities = (db: IDatabase<object>) => {
   console.log("getActivities");
 
   const query = `
-    SELECT *
-    FROM activity
+    SELECT a.*, (SELECT COUNT(*) FROM member_activity WHERE activity_id = a.id) as member_count
+    FROM activity a
   `;
 
   return db.manyOrNone<Activity>(query, []);

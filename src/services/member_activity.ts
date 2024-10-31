@@ -79,7 +79,7 @@ export const deleteMemberActivityByMemberId = (
     RETURNING *
   `;
 
-  return db.oneOrNone<MemberActivity>(query, [id]);
+  return db.manyOrNone<MemberActivity>(query, [id]);
 };
 
 export const deleteMemberActivityByActivityId = (
@@ -94,5 +94,5 @@ export const deleteMemberActivityByActivityId = (
     RETURNING *
   `;
 
-  return db.oneOrNone<MemberActivity>(query, [id]);
+  return db.manyOrNone<MemberActivity>(query, [id]);
 };

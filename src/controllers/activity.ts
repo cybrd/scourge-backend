@@ -13,6 +13,7 @@ import {
 } from "../services/activity";
 import { Activity } from "../models/activity";
 import { authUser } from "../middlewares/auth";
+import { v4 } from "uuid";
 
 export const activityController = Router();
 
@@ -60,8 +61,9 @@ activityController.put("/:id", authUser(), (req, res) => {
 activityController.post("/", authUser(), (req, res) => {
   (async () => {
     const body = req.body as Activity;
+    const id = v4();
 
-    const result = await createActivity(db, body);
+    const result = await createActivity(db, { ...body, id });
 
     res.json(result);
   })().catch((err) => {

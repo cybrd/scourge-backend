@@ -2,6 +2,9 @@ import type { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import { verify } from "jsonwebtoken";
 
+import { config } from "dotenv";
+config();
+
 import { db } from "../connections";
 
 import { User } from "../models/user";
@@ -24,7 +27,7 @@ export const authUser = (): RequestHandler => (req, res, next) => {
   const [_, token] = req.headers.authorization.split(" ");
 
   try {
-    const userToken = verify(token, "secret") as User;
+    const userToken = verify(token, process.env.JWT_SIGN_KEY || "xzz") as User;
 
     getUserByUsername(db, userToken.username)
       .then((user) => {

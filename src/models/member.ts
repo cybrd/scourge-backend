@@ -3,3 +3,7 @@ export type Member = {
   discord_name: string;
   ingame_name: string;
 };
+
+export type MemberWithPoints = Member & {
+  total_points: number;
+};

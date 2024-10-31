@@ -9,6 +9,7 @@ import { userController } from "./controllers/user";
 import { activityController } from "./controllers/activity";
 import { memberActivityController } from "./controllers/member-activity";
 import { memberController } from "./controllers/member";
+import { summaryController } from "./controllers/summary";
 
 export const app = express();
 
@@ -22,6 +23,7 @@ app.use("/user", userController);
 app.use("/activity", activityController);
 app.use("/member-activity", memberActivityController);
 app.use("/member", memberController);
+app.use("/summary", summaryController);
 
 app.use((req, res) =>
   res.status(StatusCodes.NOT_FOUND).json({

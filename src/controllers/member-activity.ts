@@ -10,6 +10,7 @@ import { createMember, getMembers } from "../services/member";
 import {
   createMemberByActivityId,
   deleteMemberActivity,
+  getActivityByMemberId,
   getMembersByActivityId,
 } from "../services/member_activity";
 
@@ -18,6 +19,17 @@ export const memberActivityController = Router();
 memberActivityController.get("/:activityId", (req, res) => {
   (async () => {
     const result = await getMembersByActivityId(db, req.params.activityId);
+
+    res.send(result);
+  })().catch((err) => {
+    console.trace(err);
+    res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+  });
+});
+
+memberActivityController.get("/member/:memberId", (req, res) => {
+  (async () => {
+    const result = await getActivityByMemberId(db, req.params.memberId);
 
     res.send(result);
   })().catch((err) => {

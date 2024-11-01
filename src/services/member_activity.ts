@@ -10,7 +10,21 @@ export const getMembersByActivityId = (db: IDatabase<object>, id: string) => {
     FROM member_activity ma
     JOIN activity a ON a.id = ma.activity_id
     JOIN members m ON m.id = ma.member_id
-    WHERE activity_id = $1
+    WHERE ma.activity_id = $1
+  `;
+
+  return db.manyOrNone<MemberActivityFull>(query, [id]);
+};
+
+export const getActivityByMemberId = (db: IDatabase<object>, id: string) => {
+  console.log("getActivityByMemberId", id);
+
+  const query = `
+    SELECT *
+    FROM member_activity ma
+    JOIN activity a ON a.id = ma.activity_id
+    JOIN members m ON m.id = ma.member_id
+    WHERE ma.member_id = $1
   `;
 
   return db.manyOrNone<MemberActivityFull>(query, [id]);

@@ -15,7 +15,7 @@ import {
 
 export const memberActivityController = Router();
 
-memberActivityController.get("/:activityId", authUser(), (req, res) => {
+memberActivityController.get("/:activityId", (req, res) => {
   (async () => {
     const result = await getMembersByActivityId(db, req.params.activityId);
 

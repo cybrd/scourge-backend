@@ -19,7 +19,7 @@ import { deleteMemberActivityByActivityId } from "../services/member_activity";
 
 export const activityController = Router();
 
-activityController.get("/", authUser(), (req, res) => {
+activityController.get("/", (req, res) => {
   (async () => {
     const [data, counts] = await Promise.all([
       getActivities(db),
@@ -36,7 +36,7 @@ activityController.get("/", authUser(), (req, res) => {
   });
 });
 
-activityController.get("/:id", authUser(), (req, res) => {
+activityController.get("/:id", (req, res) => {
   (async () => {
     const result = await getActivityById(db, req.params.id);
 

@@ -18,7 +18,7 @@ import { deleteMemberActivityByMemberId } from "../services/member_activity";
 
 export const memberController = Router();
 
-memberController.get("/", authUser(), (req, res) => {
+memberController.get("/", (req, res) => {
   (async () => {
     const result = await getMembers(db);
 
@@ -29,7 +29,7 @@ memberController.get("/", authUser(), (req, res) => {
   });
 });
 
-memberController.get("/:id", authUser(), (req, res) => {
+memberController.get("/:id", (req, res) => {
   (async () => {
     const result = await getMemberById(db, req.params.id);
 

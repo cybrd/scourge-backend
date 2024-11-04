@@ -11,7 +11,7 @@ export const getMembersByActivityId = (db: IDatabase<object>, id: string) => {
     JOIN activity a ON a.id = ma.activity_id
     JOIN members m ON m.id = ma.member_id
     WHERE ma.activity_id = $1
-    ORDER BY activity_date DESC
+    ORDER BY activity_date DESC, name ASC
   `;
 
   return db.manyOrNone<MemberActivityFull>(query, [id]);
@@ -26,7 +26,7 @@ export const getActivityByMemberId = (db: IDatabase<object>, id: string) => {
     JOIN activity a ON a.id = ma.activity_id
     JOIN members m ON m.id = ma.member_id
     WHERE ma.member_id = $1
-    ORDER BY activity_date DESC
+    ORDER BY activity_date DESC, name ASC
   `;
 
   return db.manyOrNone<MemberActivityFull>(query, [id]);

@@ -13,7 +13,7 @@ export const getMembersTotalPoints = (db: IDatabase<object>) => {
     FROM members m
     JOIN member_activity ma ON ma.member_id = m.id
     JOIN activity a ON a.id = ma.activity_id
-    GROUP BY 1, 2, 3
+    GROUP BY 1, 2, 3, 4, 5
     ORDER BY available_points DESC
   `;
 

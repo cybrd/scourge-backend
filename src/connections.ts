@@ -1,6 +1,5 @@
 import pgpClass from "pg-promise";
 
-import { TypeId } from "pg-promise/typescript/pg-subset";
 import { config } from "dotenv";
 config();
 
@@ -8,7 +7,8 @@ const pgp = pgpClass({
   schema: "scourge",
 });
 
-pgp.pg.types.setTypeParser(TypeId.INT8, parseInt);
+const INT8 = 20;
+pgp.pg.types.setTypeParser(INT8, parseInt);
 
 export const db = pgp({
   host: process.env.DB_HOST,

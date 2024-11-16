@@ -3,9 +3,14 @@ import pgpClass from "pg-promise";
 import { config } from "dotenv";
 config();
 
-export const db = pgpClass({
+const pgp = pgpClass({
   schema: "scourge",
-})({
+});
+
+const twenty = 20;
+pgp.pg.types.setTypeParser(twenty, BigInt);
+
+export const db = pgp({
   host: process.env.DB_HOST,
   password: process.env.DB_PASSWORD,
   port: 5432,

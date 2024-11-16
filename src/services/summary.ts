@@ -6,7 +6,7 @@ export const getMembersTotalPoints = (db: IDatabase<object>) => {
   console.log("getMembersTotalPoints");
 
   const query = `
-    SELECT discord_name, ingame_name, m.id as id,
+    SELECT discord_name, ingame_name, weapon, team, m.id as id,
     SUM(CASE WHEN a."type" IN ('Bestowed (Archboss)') THEN 0 ELSE a.points END) AS available_points,
     SUM(CASE WHEN a."type" IN ('Bestowed') THEN 0 ELSE a.points END) AS available_archboss_points,
     SUM(CASE WHEN a."type" IN ('Bestowed', 'Bestowed (Archboss)') THEN 0 ELSE a.points END) AS total_points

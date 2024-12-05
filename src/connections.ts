@@ -3,9 +3,7 @@ import pgpClass from "pg-promise";
 import { config } from "dotenv";
 config();
 
-const pgp = pgpClass({
-  schema: "scourge",
-});
+const pgp = pgpClass();
 
 const INT8 = 20;
 pgp.pg.types.setTypeParser(INT8, parseInt);
